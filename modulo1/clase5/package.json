@@ -1,0 +1,17 @@
+{
+  "name": "calculadoraedad",
+  "version": "1.0.0",
+  "description": "Calculadora de edad",
+  "main": "calculadoraEdad.js",
+  "scripts": {
+    "test": "node calculadoraEdad.js"
+  },
+  "keywords": [
+    "calculadora"
+  ],
+  "author": "SpuK",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}

@@ -1,0 +1,54 @@
+* MODULO 1 *
+// Clase 0 - Principios de programación Backend
+// Clase 1 - Principios básicos de Javascript
+// Clase 2 - Nuevas funcionalidades de los lenguajes ECMAScritpt
+// Clase 3 - Programación sincrónica y asincrónica
+// Clase 4 - Manejo de archivos en Javascript
+// Clase 5 - Administrador de paquetes NPM --> Completar desafio, calculadora de edad.
+Clase 6 - Servidores web
+Clase 7 - Express avanzado
+Clase 8 - Router y Multer
+Clase 9 - Motores de Plantillas
+Clase 10 - Websockets
+Clase 11 - Aplicación chat con Websockets
+Clase 12 - MongoDB
+Clase 13 - CRUD en MongoDB
+Clase 14 - Mongoose
+Clase 15 - Primera práctica integradora
+Clase 16 - Mongo Avanzado (Parte I)
+Clase 17 - Mongo Avanzado (Parte II)
+
+
+* MODULO 2 *
+Clase 18 - Cookies, Sessions & Storages
+Clase 19 - Cookies, Session & Storage II
+Clase 20 - Autorización y autenticación
+Clase 21 - Estrategia de autenticación por terceros + JWT
+Clase 22 - Passport Avanzado
+Clase 23 - Ruteo avanzado y estrategias avanzadas de autorización
+Clase 24 - Segunda práctica integradora
+Clase 25 - Proceso principal del servidor + Global & Child Process
+Clase 26 - Arquitectura por capas
+Clase 27 - Arquitectura del servidor: Diseño
+Clase 28 - Arquitectura del servidor - Persistencia
+Clase 29 - Desarrollo de un servidor web basado en capas completo
+Clase 30 - Mailing y mensajería
+
+
+* MODULO 3 *
+Clase 31 - Testing Mocks
+Clase 32 - Optimización
+Clase 33 - Versiones y paquetes
+Clase 34 - Logging & performance
+Clase 35 - Clusters & Escalabilidad
+Clase 36 - Orquestación de contenedores
+Clase 37 - Tercera práctica integradora
+Clase 38 - Seguridad
+Clase 39 - Documentación de API
+Clase 40 - Testing Unitario
+Clase 41 - Testing avanzado
+Clase 42 - Frameworks de desarrollo: Nestjs (Parte I)
+Clase 43 - Frameworks de desarrollo: Nestjs (Parte II)
+Clase 44 - Cuarta práctica integradora
+Clase 45 - Product Cloud: Despliegue de nuestro aplicativo
+Clase 46 - Pasarelas de pago
