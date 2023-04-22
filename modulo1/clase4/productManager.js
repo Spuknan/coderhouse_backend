@@ -2,18 +2,79 @@ const fs = require('fs')
 
 class productManager {
    constructor(path) {
-      try {
-         const data = fs.readFileSync(path, 'utf-8');
-         this.products = JSON.parse(data);
-         this.#lastProductId = this.products.length > 0 ? this.products[this.products.length - 1].id : 0;
-         this.path = path;
-      } catch (error) {
-         this.products = [];
-         this.#lastProductId = 0;
-         this.path = path;
-      }
+      this.path = path;
+      this.products = [];
+      this.#lastProductId = 0;
    }
    #lastProductId;
+
+   async addProduct(title, description, price, thumbnail, code, stock) {
+      try {
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            console.log(data)
+            return false;
+         }
+         const products = JSON.parse(data);
+
+         if (!title || !description || !price || !thumbnail || !code || !stock) {
+            console.log("There's an input missing!")
+            return false;
+         }
+
+         const existingProduct = products.find((product) => product.code === code);
+         if (existingProduct) {
+            console.error(`There is another product with code ${code}, please retry with another code.`);
+            return false;
+         }
+
+         const newProduct = {
+            id: products.length + 1,
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+         };
+
+         products.push(newProduct);
+
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
+         console.log(`Product "${newProduct.title}" added successfully!`);
+         return true;
+      } catch (error) {
+         console.error('ERROR creating the product' + error);
+         return false;
+      }
+   }
+
+   async updateProduct(id, updates) {
+      try {
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            console.log(data)
+            return false;
+         }
+         const products = JSON.parse(data);
+         const index = products.findIndex((product) => product.id === id);
+         if (index === -1) {
+            console.error(`Product with id ${id} not found.`);
+            return false;
+         }
+         const product = products[index];
+         const updatedProduct = { ...product, ...updates };
+         products.splice(index, 1, updatedProduct);
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
+         console.log(`Product "${product.title}" updated successfully!`);
+         return true;
+      } catch (error) {
+         console.error(`ERROR updating the product with id ${id}\n`, error);
+         return false;
+      }
+   }
 
    async addProduct(title, description, price, thumbnail, code, stock) {
       try {
@@ -88,14 +149,21 @@ class productManager {
 
    async deleteProduct(id) {
       try {
-         const index = this.products.findIndex((product) => product.id === id);
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            console.log(data)
+            return false;
+         }
+         const products = JSON.parse(data);
+         const index = products.findIndex((product) => product.id === id);
          if (index === -1) {
             console.error(`Product with id ${id} not found.`);
             return false;
          }
-         const product = this.products[index];
-         this.products.splice(index, 1);
-         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
+         const product = products[index];
+         products.splice(index, 1);
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
          console.log(`Product "${product.title}" deleted successfully!`);
          return true;
       } catch (error) {
@@ -131,7 +199,7 @@ setTimeout(async () => {
 }, 3000);
 
 setTimeout(async () => {
-   console.log("TEST 4 --> addProduct debe agregar correctamente un cuarto producto")
+   console.log("TEST 4 --> addProduct debe agregar correctamente un tercer producto")
    await pm.addProduct("producto prueba3", "Este es un producto prueba3", 200, "Sin imagen", "abc12345", 25);
    console.log();
 }, 4000);
@@ -171,3 +239,10 @@ setTimeout(async () => {
    await pm.getProducts();
    console.log();
 }, 10000);
+
+setTimeout(async () => {
+   console.log("TEST 11 --> updateProduct debe actualizar correctamente un producto")
+   await pm.updateProduct(1, { price: 250, title: "producto actualizado" });
+   await pm.getProducts();
+   console.log();
+}, 11000);
