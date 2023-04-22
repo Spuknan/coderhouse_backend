@@ -1,35 +1,36 @@
 const fs = require('fs')
 
-class ProductManager {
+class productManager {
    constructor(path) {
-      try {
-         const data = fs.readFileSync(path, 'utf-8');
-         this.products = JSON.parse(data);
-         this.#lastProductId = this.products.length > 0 ? this.products[this.products.length - 1].id : 0;
-         this.path = path;
-      } catch (error) {
-         this.products = [];
-         this.#lastProductId = 0;
-         this.path = path;
-      }
+      this.path = path;
+      this.products = [];
+      this.#lastProductId = 0;
    }
    #lastProductId;
 
    async addProduct(title, description, price, thumbnail, code, stock) {
       try {
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            console.log(data)
+            return false;
+         }
+         const products = JSON.parse(data);
+
          if (!title || !description || !price || !thumbnail || !code || !stock) {
             console.log("There's an input missing!")
             return false;
          }
 
-         const existingProduct = this.products.find((product) => product.code === code);
+         const existingProduct = products.find((product) => product.code === code);
          if (existingProduct) {
             console.error(`There is another product with code ${code}, please retry with another code.`);
             return false;
          }
 
          const newProduct = {
-            id: ++this.#lastProductId,
+            id: products.length + 1,
             title,
             description,
             price,
@@ -38,12 +39,39 @@ class ProductManager {
             stock,
          };
 
-         this.products.push(newProduct);
+         products.push(newProduct);
 
-         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-         console.log(`Product "${newProduct.title}" added succesfully!`);
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
+         console.log(`Product "${newProduct.title}" added successfully!`);
+         return true;
       } catch (error) {
          console.error('ERROR creating the product' + error);
+         return false;
+      }
+   }
+
+   async updateProduct(id, updates) {
+      try {
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            return false;
+         }
+         const products = JSON.parse(data);
+         const index = products.findIndex((product) => product.id === id);
+         if (index === -1) {
+            console.error(`Product with id ${id} not found.`);
+            return false;
+         }
+         const product = products[index];
+         const updatedProduct = { ...product, ...updates };
+         products.splice(index, 1, updatedProduct);
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
+         console.log(`Product "${product.title}" updated successfully!`);
+         return true;
+      } catch (error) {
+         console.error(`ERROR updating the product with id ${id}\n`, error);
+         return false;
       }
    }
 
@@ -52,12 +80,9 @@ class ProductManager {
          const data = await fs.promises.readFile(this.path, 'utf-8');
          if (!data) {
             console.log("There are no products loaded.")
-            console.log(data)
             return [];
          }
          const products = JSON.parse(data);
-         console.log("Products:")
-         console.table(products)
          return products
       } catch (error) {
          console.error('ERROR getting the products list\n' + error);
@@ -77,8 +102,6 @@ class ProductManager {
             console.log(`Product with id ${id} doesn't exist.`);
             return null;
          }
-         console.log("Product:")
-         console.table(product)
          return product;
       } catch (error) {
          console.error(`ERROR getting the product with id ${id}\n` + error);
@@ -88,14 +111,20 @@ class ProductManager {
 
    async deleteProduct(id) {
       try {
-         const index = this.products.findIndex((product) => product.id === id);
+         const data = await fs.promises.readFile(this.path, 'utf-8');
+         if (!data) {
+            console.log("There are no products loaded.")
+            return false;
+         }
+         const products = JSON.parse(data);
+         const index = products.findIndex((product) => product.id === id);
          if (index === -1) {
             console.error(`Product with id ${id} not found.`);
             return false;
          }
-         const product = this.products[index];
-         this.products.splice(index, 1);
-         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
+         const product = products[index];
+         products.splice(index, 1);
+         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf8');
          console.log(`Product "${product.title}" deleted successfully!`);
          return true;
       } catch (error) {
@@ -106,4 +135,4 @@ class ProductManager {
 }
 
 
-module.exports = ProductManager;
+module.exports = productManager;

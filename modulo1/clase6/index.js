@@ -45,15 +45,19 @@ app.get('/bienvenida', (req, res) => {
 
 app.get('/usuario/:id', (req, res) => {
    let id = req.params.id
+
    let userFound = usuarioTest.find((elem) => {
       return elem.id == id
    })
+
    console.log(userFound);
+
    if (!userFound) {
       res.send('User not found')
    } else {
       res.send(userFound);
    }
+   
 })
 
 app.get('/getUsers', (req, res) => {

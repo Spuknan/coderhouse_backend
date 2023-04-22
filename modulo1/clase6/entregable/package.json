@@ -2,7 +2,7 @@
    "name": "entregable",
    "version": "1.0.0",
    "description": "Entregable Clase 6",
-   "main": "index.js",
+   "main": "app.js",
    "scripts": {
       "start": "nodemon"
    },

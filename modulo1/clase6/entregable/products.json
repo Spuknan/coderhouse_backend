@@ -70,5 +70,23 @@
       "thumbnail": "https://example.com/images/speaker.jpg",
       "code": "AS-001",
       "stock": 15
+   },
+   {
+      "id": 9,
+      "title": "Zapatillas adidas",
+      "description": "Zapatillas de running marca Adidas",
+      "price": 300,
+      "thumbnail": "https://example.com/images/adidasTrainers.jpg",
+      "code": "AZ-001",
+      "stock": 12
+   },
+   {
+      "id": 10,
+      "title": "Kit mouse y teclado",
+      "description": "Kit gamer con mouse y teclado Logitech.",
+      "price": 172,
+      "thumbnail": "https://example.com/images/kitgamer1.jpg",
+      "code": "KG-001",
+      "stock": 2
    }
 ]
