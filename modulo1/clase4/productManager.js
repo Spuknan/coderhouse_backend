@@ -76,38 +76,6 @@ class productManager {
       }
    }
 
-   async addProduct(title, description, price, thumbnail, code, stock) {
-      try {
-         if (!title || !description || !price || !thumbnail || !code || !stock) {
-            console.log("There's an input missing!")
-            return false;
-         }
-
-         const existingProduct = this.products.find((product) => product.code === code);
-         if (existingProduct) {
-            console.error(`There is another product with code ${code}, please retry with another code.`);
-            return false;
-         }
-
-         const newProduct = {
-            id: ++this.#lastProductId,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-         };
-
-         this.products.push(newProduct);
-
-         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-         console.log(`Product "${newProduct.title}" added succesfully!`);
-      } catch (error) {
-         console.error('ERROR creating the product' + error);
-      }
-   }
-
    async getProducts() {
       try {
          const data = await fs.promises.readFile(this.path, 'utf-8');
