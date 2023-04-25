@@ -10,21 +10,24 @@ class productManager {
 
    async getProducts() {
       try {
-         const data = await fs.promises.readFile(this.path, 'utf8');
-         this.products = JSON.parse(data);
-         return data
+        const data = await fs.promises.readFile(this.path, 'utf8');
+        this.products = JSON.parse(data);
+        if (this.products.length > 0) {
+          this.#lastProductId = Math.max(...this.products.map(p => p.id));
+        }
+        return this.products;
       } catch (err) {
-         if (err.code === 'ENOENT') { // Archivo no encontrado
-            console.log("No file found with that specific name. Creating file...")
-            await fs.promises.writeFile(this.path, '[]', 'utf8'); // Crear archivo vacío
-            this.products = []; // Cargar productos vacíos
-            return this.products
-         } else {
-            console.error(`Error loading products: ${err}`);
-            this.products = [];
-         }
+        if (err.code === 'ENOENT') {
+          console.log("No file found with that specific name. Creating file...");
+          await fs.promises.writeFile(this.path, '[]', 'utf8');
+          this.products = [];
+          return this.products;
+        } else {
+          console.error(`Error loading products: ${err}`);
+          this.products = [];
+        }
       }
-   }
+    }
 
    async addProduct(title, description, price, thumbnail, code, stock) {
       // Cargar los productos existentes
