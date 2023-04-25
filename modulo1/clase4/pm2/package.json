@@ -1,0 +1,12 @@
+{
+   "name": "entregable",
+   "version": "2.0.0",
+   "description": "Entregable reescrito",
+   "main": "productManager.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node test.js"
+   },
+   "author": "SpuK",
+   "license": "ISC"
+}
