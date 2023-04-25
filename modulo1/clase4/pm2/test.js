@@ -2,6 +2,7 @@ const productManager = require('./productManager');
 
 const runTests = async () => {
    const pm = new productManager('./products.json');
+   console.clear()
 
    try {
       console.log("TEST 1 --> getProducts debe ser un array vacio.");
