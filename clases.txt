@@ -4,9 +4,9 @@
 // Clase 2 - Nuevas funcionalidades de los lenguajes ECMAScritpt
 // Clase 3 - Programación sincrónica y asincrónica
 // Clase 4 - Manejo de archivos en Javascript
-// Clase 5 - Administrador de paquetes NPM --> Completar desafio, calculadora de edad.
+// Clase 5 - Administrador de paquetes NPM
 // Clase 6 - Servidores web
-Clase 7 - Express avanzado
+// Clase 7 - Express avanzado
 Clase 8 - Router y Multer
 Clase 9 - Motores de Plantillas
 Clase 10 - Websockets

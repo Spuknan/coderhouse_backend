@@ -1,0 +1,92 @@
+[
+   {
+      "id": 1,
+      "title": "Smartphone",
+      "description": "Un teléfono inteligente con cámara de alta calidad y pantalla de alta resolución.",
+      "price": 500,
+      "thumbnail": "https://example.com/images/smartphone.jpg",
+      "code": "SP-001",
+      "stock": 10
+   },
+   {
+      "id": 2,
+      "title": "Laptop",
+      "description": "Una computadora portátil con procesador potente y memoria RAM amplia.",
+      "price": 1000,
+      "thumbnail": "https://example.com/images/laptop.jpg",
+      "code": "LP-001",
+      "stock": 5
+   },
+   {
+      "id": 3,
+      "title": "Cámara fotográfica",
+      "description": "Una cámara fotográfica profesional con lente intercambiable y alta resolución.",
+      "price": 1500,
+      "thumbnail": "https://example.com/images/camera.jpg",
+      "code": "CF-001",
+      "stock": 3
+   },
+   {
+      "id": 4,
+      "title": "Reproductor de música",
+      "description": "Un reproductor de música portátil con almacenamiento amplio y batería de larga duración.",
+      "price": 200,
+      "thumbnail": "https://example.com/images/music_player.jpg",
+      "code": "RP-001",
+      "stock": 20
+   },
+   {
+      "id": 5,
+      "title": "Televisor",
+      "description": "Un televisor de alta definición con pantalla grande y múltiples opciones de conectividad.",
+      "price": 800,
+      "thumbnail": "https://example.com/images/tv.jpg",
+      "code": "TV-001",
+      "stock": 8
+   },
+   {
+      "id": 6,
+      "title": "Tableta",
+      "description": "Una tableta con pantalla táctil y múltiples aplicaciones disponibles.",
+      "price": 400,
+      "thumbnail": "https://example.com/images/tablet.jpg",
+      "code": "TB-001",
+      "stock": 12
+   },
+   {
+      "id": 7,
+      "title": "Consola de videojuegos",
+      "description": "Una consola de videojuegos con gráficos de alta calidad y múltiples juegos disponibles.",
+      "price": 600,
+      "thumbnail": "https://example.com/images/game_console.jpg",
+      "code": "GC-001",
+      "stock": 4
+   },
+   {
+      "id": 8,
+      "title": "Altavoz inalámbrico",
+      "description": "Un altavoz inalámbrico portátil con sonido de alta fidelidad y conexión Bluetooth.",
+      "price": 150,
+      "thumbnail": "https://example.com/images/speaker.jpg",
+      "code": "AS-001",
+      "stock": 15
+   },
+   {
+      "id": 9,
+      "title": "Zapatillas adidas",
+      "description": "Zapatillas de running marca Adidas",
+      "price": 300,
+      "thumbnail": "https://example.com/images/adidasTrainers.jpg",
+      "code": "AZ-001",
+      "stock": 12
+   },
+   {
+      "id": 10,
+      "title": "Kit mouse y teclado",
+      "description": "Kit gamer con mouse y teclado Logitech.",
+      "price": 172,
+      "thumbnail": "https://example.com/images/kitgamer1.jpg",
+      "code": "KG-001",
+      "stock": 2
+   }
+]
