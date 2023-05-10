@@ -8,14 +8,14 @@ class productManager {
 
    #lastProductId = 0;
 
-   async getProducts() {
+   async getProducts(limit) {
       try {
          const data = await fs.promises.readFile(this.path, 'utf8');
          this.products = JSON.parse(data);
          if (this.products.length > 0) {
             this.#lastProductId = Math.max(...this.products.map(p => p.id));
          }
-         return this.products
+         return limit ? this.products.slice(0, limit) : this.products;
       } catch (err) {
          if (err.code === 'ENOENT') { // Archivo no encontrado
             console.log("No file found with that specific name.")
@@ -23,16 +23,16 @@ class productManager {
             console.error(`Error loading products: ${err}`);
          }
          this.products = [];
-         return this.products
+         return this.products;
       }
    }
 
-   async addProduct(title, description, price, thumbnail, code, stock) {
+   async addProduct(title, description, price, thumbnail, code, stock, status) {
       // Cargar los productos existentes
       await this.getProducts();
 
       // Comprobar que se proporcionan todos los datos necesarios
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
+      if (!title || !description || !price || !thumbnail || !code || !stock || !status) {
          console.error("Missing product data");
          return false
       }
@@ -43,7 +43,7 @@ class productManager {
       // Comprobar que no exista otro producto con el mismo code
       if (this.products.some(product => product.code === code)) {
          console.error(`A product with code ${code} already exists`);
-         return false
+         return { statusCode: 409, message: `A product with code ${code} already exists` };
       }
 
       // Crear un nuevo objeto de producto
@@ -54,7 +54,8 @@ class productManager {
          price: price,
          thumbnail: thumbnail,
          code: code,
-         stock: stock
+         stock: stock,
+         status: status
       };
 
       // Agregar el nuevo producto a la lista de productos
@@ -71,7 +72,7 @@ class productManager {
       }
 
       // Devolver el nuevo objeto de producto
-      return newProduct;
+      return { statusCode: 201, message: "Product created", product: newProduct };
    }
 
    async updateProduct(id, newData) {
@@ -86,27 +87,13 @@ class productManager {
          return null;
       }
 
-      // Obtener el código del producto a actualizar
-      const newCode = newData.code;
-
-      // Comprobar que se proporcionó un código de producto para actualizar
-      if (!newCode) {
-         console.error(`Missing product code to update`);
-         return null;
+      // Actualizar los campos del producto que se hayan pasado en newData
+      const updatedProduct = { ...this.products[productIndex] };
+      for (const [key, value] of Object.entries(newData)) {
+         if (value !== undefined) {
+            updatedProduct[key] = value;
+         }
       }
-
-      // Comprobar que el código de producto a actualizar no está siendo utilizado por otro producto
-      if (this.products.some(product => product.code === newCode && product.id !== id)) {
-         console.error(`A product with code ${newCode} already exists`);
-         return null;
-      }
-
-      // Actualizar los campos del producto
-      this.products[productIndex] = {
-         ...this.products[productIndex], // Tomar todas las propiedades del objeto.
-         ...newData, // Sobreescribir las propiedades con los nuevos valores.
-         id: id // Obligar a mantener el id.
-      };
 
       // Guardar los productos actualizados en el archivo JSON
       try {
@@ -116,8 +103,9 @@ class productManager {
          throw new Error(`Error saving product data: ${error}`);
       }
 
-      return this.products[productIndex];
+      return updatedProduct;
    }
+
 
    async getProductById(id) {
       // Cargar los productos existentes
@@ -139,7 +127,12 @@ class productManager {
 
    async deleteProduct(id) {
       // Buscar el producto por ID
-      await this.getProductById(id);
+      const product = await this.getProductById(id);
+
+      // Verificar si el producto existe
+      if (!product) {
+         throw new Error(`Product with ID ${id} not found`);
+      }
 
       // Filtrar la lista de productos para excluir el producto con el ID dado
       this.products = this.products.filter(product => product.id !== id);
@@ -155,6 +148,7 @@ class productManager {
 
       return id;
    }
+
 }
 
 module.exports = productManager;
