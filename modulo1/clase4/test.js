@@ -5,7 +5,7 @@ const runTests = async () => {
    console.clear()
 
    try {
-      console.log("TEST 1 --> getProducts debe ser un array vacio.");
+      console.log("TEST 1 --> getProducts debe ser un array vacio. Si el archivo no existe, debe crearlo.");
       let products = await pm.getProducts();
       console.log("Products", products);
       console.log()
@@ -27,7 +27,7 @@ const runTests = async () => {
 
       console.log("TEST 5 --> getProducts debe devolver tres productos");
       products = await pm.getProducts();
-      console.log("Products", products);
+      console.table(products);
       console.log()
 
       console.log("TEST 6 --> addProduct con un id repetido debe devolver error");
@@ -48,19 +48,28 @@ const runTests = async () => {
 
       console.log("TEST 10 --> getProducts debe devolver la lista sin el producto con id '2'");
       products = await pm.getProducts();
-      console.log("Products", products);
+      console.table(products);
       console.log()
 
       console.log("TEST 11 --> updateProduct debe actualizar correctamente un producto");
       await pm.updateProduct(1, { price: 250, title: "producto actualizado" });
       products = await pm.getProducts();
-      console.log("Products", products);
+      console.table(products);
       console.log()
 
       console.log("TEST 12 --> updateProduct no debería reemplazar el id de un producto (id: 500)");
       await pm.updateProduct(1, { price: 250, title: "producto actualizado", id: 500 });
       products = await pm.getProducts();
-      console.log("Products", products);
+      console.table(products);
+      console.log()
+
+      console.log("TEST 13 --> addProduct debe agregar un producto con un id nuevo");
+      await pm.addProduct("producto prueba4", "Este es un producto prueba4", 212, "Sin imagen", "abc123456", 30);
+      console.log()
+
+      console.log("TEST 14 --> getProducts debe devolver la lista con todos los productos");
+      products = await pm.getProducts();
+      console.table(products);
       console.log()
 
       console.log("TEST 13 --> updateProduct no debería actualizar un producto con un code repetido");

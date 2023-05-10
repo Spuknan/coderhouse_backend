@@ -10,6 +10,7 @@ class productManager {
 
    async getProducts() {
       try {
+<<<<<<< HEAD
          const data = await fs.promises.readFile(this.path, 'utf8');
          this.products = JSON.parse(data);
          if (this.products.length > 0) {
@@ -24,8 +25,26 @@ class productManager {
          }
          this.products = [];
          return this.products
+=======
+        const data = await fs.promises.readFile(this.path, 'utf8');
+        this.products = JSON.parse(data);
+        if (this.products.length > 0) {
+          this.#lastProductId = Math.max(...this.products.map(p => p.id));
+        }
+        return this.products;
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          console.log("No file found with that specific name. Creating file...");
+          await fs.promises.writeFile(this.path, '[]', 'utf8');
+          this.products = [];
+          return this.products;
+        } else {
+          console.error(`Error loading products: ${err}`);
+          this.products = [];
+        }
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
       }
-   }
+    }
 
    async addProduct(title, description, price, thumbnail, code, stock) {
       // Cargar los productos existentes
@@ -74,6 +93,56 @@ class productManager {
       return newProduct;
    }
 
+<<<<<<< HEAD
+   async addProduct(title, description, price, thumbnail, code, stock) {
+      // Cargar los productos existentes
+      await this.getProducts();
+
+      // Comprobar que se proporcionan todos los datos necesarios
+      if (!title || !description || !price || !thumbnail || !code || !stock) {
+         console.error("Missing product data");
+         return false
+      }
+
+      // Generar un nuevo ID de producto
+      const newProductId = ++this.#lastProductId;
+
+      // Comprobar que no exista otro producto con el mismo code
+      if (this.products.some(product => product.code === code)) {
+         console.error(`A product with code ${code} already exists`);
+         return false
+      }
+
+      // Crear un nuevo objeto de producto
+      const newProduct = {
+         id: newProductId,
+         title: title,
+         description: description,
+         price: price,
+         thumbnail: thumbnail,
+         code: code,
+         stock: stock
+      };
+
+      // Agregar el nuevo producto a la lista de productos
+      this.products.push(newProduct);
+      console.log("New product created:")
+      console.table(newProduct)
+
+      // Guardar los productos en el archivo JSON
+      try {
+         console.log(`Saving product in path file`)
+         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
+      } catch (error) {
+         throw new Error(`Error saving product data: ${error}`);
+      }
+
+      // Devolver el nuevo objeto de producto
+      return newProduct;
+   }
+
+=======
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
    async updateProduct(id, newData) {
       // Cargar los productos existentes
       await this.getProducts();
@@ -86,6 +155,7 @@ class productManager {
          return null;
       }
 
+<<<<<<< HEAD
       // Obtener el código del producto a actualizar
       const newCode = newData.code;
 
@@ -101,6 +171,8 @@ class productManager {
          return null;
       }
 
+=======
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
       // Actualizar los campos del producto
       this.products[productIndex] = {
          ...this.products[productIndex], // Tomar todas las propiedades del objeto.
@@ -140,10 +212,17 @@ class productManager {
    async deleteProduct(id) {
       // Buscar el producto por ID
       await this.getProductById(id);
+<<<<<<< HEAD
 
       // Filtrar la lista de productos para excluir el producto con el ID dado
       this.products = this.products.filter(product => product.id !== id);
 
+=======
+   
+      // Filtrar la lista de productos para excluir el producto con el ID dado
+      this.products = this.products.filter(product => product.id !== id);
+   
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
       // Guardar los productos actualizados en el archivo JSON
       try {
          console.log(`Product with id ${id} deleted`);
@@ -152,9 +231,17 @@ class productManager {
       } catch (error) {
          throw new Error(`Error saving product data: ${error}`);
       }
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
       return id;
    }
 }
 
+<<<<<<< HEAD
 module.exports = productManager;
+=======
+module.exports = productManager;
+>>>>>>> 53aaf6cd662729b603f6b2d0c761611d18459510
