@@ -14,29 +14,4 @@ router.post('/', async (req, res) => {
    }
 });
 
-// Endpoint para obtener un carrito por ID
-router.get('/:cid', async (req, res) => {
-   try {
-      const cartId = req.params.cid;
-      const cart = await cm.getCartById(cartId);
-      res.json(cart);
-   } catch (error) {
-      res.status(404).json({ error: error.message });
-   }
-});
-
-// Endpoint para agregar un producto al carrito
-router.post('/:cid/product/:pid', async (req, res) => {
-   try {
-      const cartId = req.params.cid;
-      const productId = req.params.pid;
-      const quantity = parseInt(req.body.quantity);
-
-      const updatedCart = await cm.addToCart(cartId, productId, quantity);
-      res.json(updatedCart);
-   } catch (error) {
-      res.status(400).json({ error: error.message });
-   }
-});
-
 module.exports = router;
