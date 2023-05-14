@@ -1,0 +1,26 @@
+<div class="container">
+   <div>
+      <h1>Coder chat</h1>
+      <div id="caja"></div>
+   </div>
+   <div>
+      <form onSubmit="return addMessage()">
+         <div class="mb-3">
+            <label for="username" class="form-label">Your name</label>
+            <input type="text" class="form-control" id="username" placeholder="Your name">
+         </div>
+         <div class="mb-3">
+            <label for="text" class="form-label">Your message</label>
+            <textarea class="form-control" id="text" rows="3" placeholder="Your message..."></textarea>
+         </div>
+         <div class="mb-3">
+            <button type="submit" class="btn btn-primary mb-3">Send</button>
+         </div>
+      </form>
+   </div>
+</div>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
