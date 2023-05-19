@@ -33,6 +33,13 @@ router.post('/:cid/product/:pid', async (req, res) => {
    try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+
+      // Verificar si el producto existe
+      const productExists = await pm.getProduct(pid);
+      if (!productExists) {
+         return res.status(404).send({ statusCode: 404, message: "Product not found" });
+      }
+
       const result = await cm.addProductToCart(cid, pid);
       res.status(result.statusCode).send(result);
    } catch (error) {

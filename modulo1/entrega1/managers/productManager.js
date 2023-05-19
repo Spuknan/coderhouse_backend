@@ -1,6 +1,6 @@
 const fs = require('fs')
-
-const randomId = () => { return crypto.randomUUID()}
+const crypto = require('node:crypto');
+const randomId = () => { return crypto.randomUUID() }
 
 
 class productManager {
@@ -25,12 +25,12 @@ class productManager {
       }
    }
 
-   async addProduct(title, description, price, thumbnail, code, stock) {
+   async addProduct(title, description, price, category, thumbnail, code, stock) {
       // Cargar los productos existentes
       await this.getProducts();
 
       // Comprobar que se proporcionan todos los datos necesarios
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
+      if (!title || !description || !category || !price || !thumbnail || !code || !stock) {
          console.error("Missing product data");
          return false
       }
@@ -49,6 +49,7 @@ class productManager {
          id: pid,
          title: title,
          description: description,
+         category: category,
          price: price,
          thumbnail: thumbnail,
          code: code,
@@ -86,6 +87,13 @@ class productManager {
             return null;
          }
 
+         // Verificar si el código ya existe en otro producto
+         const codeExists = this.products.some(product => product.code === newData.code && product.id !== pid);
+
+         if (codeExists) {
+            throw new Error(`Product with code ${newData.code} already exists`);
+         }
+
          // Actualizar los campos del producto que se hayan pasado en newData
          const updatedProduct = { ...this.products[productIndex] };
          for (const [key, value] of Object.entries(newData)) {
@@ -106,6 +114,7 @@ class productManager {
          throw new Error(`Error updating product: ${error}`);
       }
    }
+
 
 
    async getProductById(pid) {
