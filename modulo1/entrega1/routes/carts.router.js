@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const cartsManager = require('../managers/cartsManager');
+const productManager = require('../managers/productManager');
 
 // Iniciar una instancia de cartsManager
 const cm = new cartsManager('./db/carts.json');
+
+// Iniciar una instancia de productManager
+const pm = new productManager('./db/products.json');
+
 
 //! Crear nuevo carrito
 router.post('/', async (req, res) => {
@@ -34,7 +39,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
       const cid = req.params.cid;
       const pid = req.params.pid;
       // Verificar si el producto existe
-      const productExists = await pm.getProduct(pid);
+      const productExists = await pm.getProductById(pid);
       if (!productExists) {
          return res.status(404).send({ statusCode: 404, message: "Product not found" });
       }
