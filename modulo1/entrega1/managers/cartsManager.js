@@ -79,7 +79,6 @@ class CartsManager {
                cart.products.push({ pid, quantity: 1 });
             }
 
-            // Write the updated list of carts to file
             // Guardar la lista actualizada de carritos en el archivo JSON
             await this.writeCarts();
 

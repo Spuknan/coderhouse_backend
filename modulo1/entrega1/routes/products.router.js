@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 //! Ruta para actualizar un producto existente
 router.put('/:pid', async (req, res) => {
    const pid = (req.params.pid);
-   const { title, description, price, thumbnail, code, stock, status } = req.body;
+   const { title, description, category, price, thumbnail, code, stock, status } = req.body;
    try {
       const updatedProduct = await pm.updateProduct(pid, { title, description, category, price, thumbnail, code, stock, status });
       if (updatedProduct) {
