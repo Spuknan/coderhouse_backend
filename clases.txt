@@ -7,11 +7,11 @@
 // Clase 5 - Administrador de paquetes NPM
 // Clase 6 - Servidores web
 // Clase 7 - Express avanzado
-Clase 8 - Router y Multer
-Clase 9 - Motores de Plantillas
-Clase 10 - Websockets
-Clase 11 - Aplicación chat con Websockets
-Clase 12 - MongoDB
+// Clase 8 - Router y Multer
+// Clase 9 - Motores de Plantillas
+// Clase 10 - Websockets
+// Clase 11 - Aplicación chat con Websockets
+// Clase 12 - MongoDB
 Clase 13 - CRUD en MongoDB
 Clase 14 - Mongoose
 Clase 15 - Primera práctica integradora
