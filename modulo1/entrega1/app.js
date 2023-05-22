@@ -10,8 +10,8 @@ const cartsRouter = require('./routes/carts.router');
 app.use(express.json());
 
 app.use('/', mainRouter);
-app.use('/products', productsRouter);
-app.use('/carts', cartsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 // server listening to port 8080
