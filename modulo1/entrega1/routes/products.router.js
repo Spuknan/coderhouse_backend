@@ -23,9 +23,9 @@ router.get('/', async (req, res) => {
 //! Ruta para agregar un nuevo producto
 router.post('/', async (req, res) => {
    console.log(req.body)
-   const { title, description, category, price, thumbnail, code, stock } = req.body;
+   const { title, description, category, price, thumbnail, code, stock, status } = req.body;
    try {
-      const result = await pm.addProduct(title, description, category, price, thumbnail, code, stock);
+      const result = await pm.addProduct(title, description, category, price, thumbnail, code, stock, status);
       if (result.statusCode === 201) {
          res.status(201).json(result.product);
       } else {
@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
    }
 });
+
 
 //! Ruta para actualizar un producto existente
 router.put('/:pid', async (req, res) => {
