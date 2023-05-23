@@ -5,6 +5,7 @@ const productManager = require('../managers/productManager');
 // Instancia un objeto de productManager
 const pm = new productManager('./db/products.json');
 
+router.use(express.json());
 
 
 //! Ruta para obtener todos los productos
@@ -22,20 +23,38 @@ router.get('/', async (req, res) => {
 
 //! Ruta para agregar un nuevo producto
 router.post('/', async (req, res) => {
-   console.log(req.body)
-   const { title, description, category, price, thumbnail, code, stock, status } = req.body;
+   console.log(req.body);
+
    try {
-      const result = await pm.addProduct(title, description, category, price, thumbnail, code, stock, status);
-      if (result.statusCode === 201) {
-         res.status(201).json(result.product);
-      } else {
-         res.status(result.statusCode).json({ error: result.message });
+      const parsedBody = JSON.parse(req.body);
+
+      // Validación de datos
+      const { title, description, category, price, thumbnail, code, stock, status } = parsedBody;
+      if (!title || !description || !category || !price || !thumbnail || !code || !stock || !status) {
+         return res.status(400).json({ error: 'Missing data' });
       }
+
+      // Resto del código para agregar el producto
+      try {
+         const result = await pm.addProduct(title, description, category, price, thumbnail, code, stock, status);
+         if (result === false) {
+            return res.status(400).json({ error: 'Invalid parameters' });
+         }
+         if (result.statusCode === 201) {
+            return res.status(201).json(result.product);
+         } else {
+            return res.status(result.statusCode).json({ error: result.message });
+         }
+      } catch (error) {
+         console.error(error);
+         return res.status(500).json({ error: 'Internal server error' });
+      }
+
    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+      return res.status(400).json({ error: 'Body is not a valid JSON' });
    }
 });
+
 
 
 //! Ruta para actualizar un producto existente

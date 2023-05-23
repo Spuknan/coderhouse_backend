@@ -26,53 +26,53 @@ class productManager {
    }
 
    async addProduct(title, description, category, price, thumbnail, code, stock, status) {
-   // Cargar los productos existentes
-   await this.getProducts();
+      // Cargar los productos existentes
+      await this.getProducts();
 
-   // Comprobar que se proporcionan todos los datos necesarios
-   if (!title || !description || !category || !price || !thumbnail || !code || !stock || status === undefined) {
-      console.error("Missing product data");
-      return { statusCode: 400, message: "Missing product data" };
+      // Comprobar que se proporcionan todos los datos necesarios
+      if (!title || !description || !category || !price || !thumbnail || !code || !stock || status === undefined) {
+         console.error("Missing product data");
+         return { statusCode: 400, message: "Missing product data" };
+      }
+
+      // Generar un nuevo ID de producto
+      const pid = randomId();
+
+      // Comprobar que no exista otro producto con el mismo code
+      if (this.products.some(product => product.code === code)) {
+         console.error(`A product with code ${code} already exists`);
+         return { statusCode: 409, message: `A product with code ${code} already exists` };
+      }
+
+      // Crear un nuevo objeto de producto
+      const newProduct = {
+         id: pid,
+         title: title,
+         description: description,
+         category: category,
+         price: price,
+         thumbnail: thumbnail,
+         code: code,
+         stock: stock,
+         status: status
+      };
+
+      // Agregar el nuevo producto a la lista de productos
+      this.products.push(newProduct);
+      console.log("New product created:");
+      console.table(newProduct);
+
+      // Guardar los productos en el archivo JSON
+      try {
+         console.log(`Saving product in path file`);
+         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
+      } catch (error) {
+         throw new Error(`Error saving product data: ${error}`);
+      }
+
+      // Devolver el nuevo objeto de producto
+      return { statusCode: 201, message: "Product created", product: newProduct };
    }
-
-   // Generar un nuevo ID de producto
-   const pid = randomId();
-
-   // Comprobar que no exista otro producto con el mismo code
-   if (this.products.some(product => product.code === code)) {
-      console.error(`A product with code ${code} already exists`);
-      return { statusCode: 409, message: `A product with code ${code} already exists` };
-   }
-
-   // Crear un nuevo objeto de producto
-   const newProduct = {
-      id: pid,
-      title: title,
-      description: description,
-      category: category,
-      price: price,
-      thumbnail: thumbnail,
-      code: code,
-      stock: stock,
-      status: status
-   };
-
-   // Agregar el nuevo producto a la lista de productos
-   this.products.push(newProduct);
-   console.log("New product created:");
-   console.table(newProduct);
-
-   // Guardar los productos en el archivo JSON
-   try {
-      console.log(`Saving product in path file`);
-      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-   } catch (error) {
-      throw new Error(`Error saving product data: ${error}`);
-   }
-
-   // Devolver el nuevo objeto de producto
-   return { statusCode: 201, message: "Product created", product: newProduct };
-}
 
    async updateProduct(pid, newData) {
       try {
